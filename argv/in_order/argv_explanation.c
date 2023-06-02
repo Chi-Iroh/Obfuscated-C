@@ -7,36 +7,20 @@ main(argc,argv) char** argv; {
     argc-- && puts(main(argc, argv) + argc[argv]);
 }
 
-// Everything in C (functions return type, variables) is defaultly of int type, unless we specify another type
-// This rule applies to the main function by the way
-// The main function is also a special one which defaultly returns 0, even if no return statement is present
-// Don't do this in any other function than main, in that case the return value will be undefined !
-// Usually, a function is defined as 'type function(type1 var1, ..., typeN varN) {}'.
-// But a very old syntax enables doing 'type function(var1, ..., varN) type1 var1; ... ; typeN varN {}'
-// So 'int main(argc, argv) int argc; char *argv[];' is exactly the same as 'int main(int argc, char *argv[])'
-// Argv is declared as char** but argc is leaved as implicit int.
+// Let's get rid of this old function parameter syntax and also add implicit int.
 int main(int argc, char** argv) {
     argc-- && puts(main(argc, argv) + argc[argv]);
     return 0;
 }
 
-// A last strange syntax occurs when using subscript operator (square brackets [])
-// In C, str[index] is exactly equivalent to index[str]
-// Firstly, only two value types accept subscript operators, pointers and static arrays (arrays defined like 'type array[size] = {...}')
-// Then, in C, a static array behaves like a pointer (please note that is said behaves and not is) to its first element, thus array is implicitly casted to &array[0].
-// After these explanations, let's dive into how the compiler deals with str[index].
-// In C str[index] is defined as *(str + index), thus index[str] = *(index + str), and as addition is commutative, index + str is equal to str + index and str[index] equal to index[str].
+// Reverse operands of the array subscript operator [], array[index] is more readable than index[array], right ?
 int main(int argc, char** argv) {
     argc-- && puts(main(argc, argv) + argv[argc]);
     return 0;
 }
 
-// OK, for now syntax-only tricks, now let's explain the logic
-// In C (and numerous other languages), logic and (&&) has an interesting and useful property, when doing A && B, if a is false then B isn't executed.
-// In C, a builtin type value (int, char, double, enum.., no struct can appear in condition) is considered false if equals 0, otherwise true (4 is true, 0 is false)
 // Note that the -- to decrement argc is a post-increment, it means that argc is decremented after have been compared in the logic and
-// That statement become cleaner in the code below
-// We can replace that logic and with an if condition to make it cleaner
+// Let's replace the logical and by an if condition.
 int main(int argc, char** argv) {
     if (argc != 0) {
         argc--;

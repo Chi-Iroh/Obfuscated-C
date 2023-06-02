@@ -20,7 +20,7 @@ _ main(_ argc, __* argv[]){} /* will be desobfuscated after the preprocessor to 
 // but also because there isn't real technical work behind this practice, as it's juste a way to replace identifiers and keywords with some garbage.
 
 // Still in the same spirit, I won't linger over random variables / functions / structures / enumerations names, as it won't teach technical things.
-// This practice however is worth a few words, as it has a huge advantage over defines, there isn't some "identifier demangler" which acts as the preprocessor.
+// This practice however is worth a few words, as it has a huge advantage over defines, there isn't some "identifier decrypter" which acts as the preprocessor.
 // The reason is that a define is a preprocessor instruction which replaces an identifier by some characters or not, and the preprocessor acts like a find-and-replace algorithm.
 // Compilers offers us a chance to view their output as preprocessing comes before the real compilation stuff, so it may be useful for some debugging or educational goals.
 // But when a variable for example is named n, this is the description we add to understand easily what really means that value.
