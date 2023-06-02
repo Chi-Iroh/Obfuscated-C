@@ -35,10 +35,56 @@ int ፷;
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// Let's begin with one of the easiest but rather powerful idea : messing with strings.
+// From the moment you use string literals (a literal is a hardcoded value, such as 4, '4' or "444", known at compile-time), your code usually become less obfuscated.
+// That's because string literals are very often used to display a text to the user, so it must have a meaning and not be too ununderstandable.
+// For instance, a more-or-less game implementation probably will display messages such as 'More', 'Less', 'You lose', 'You win', which may be super helpful to grasp the idea behind an obfuscatd code.
+// The point with strings is that they contain numbers which are printable and meaningfull for humans.
+// It can be easily verified by compiling a C program containing printf, puts or some I/O function with string literal, and then display the binary file (command in terminal or GUI text editor are fine).
+// Despite being reading a binary file with CPU instructions, some bytes are understandable and contain our string literal.
+// All the issue now is to find a solution to prevent one from having access to important information thanks to strings.
+
+// A first solution would be make the string difficult to read in the source code, as a string is nothing more than an array of numbers.
+char *str = "hello";                            // usual syntax
+char str[] = { 'h', 'e', 'l', 'l', 'o', '\0' }; // cumbersome syntax
+char str[] = { 104, 101, 108, 108, 111, 0 };    // hardcoding each char as a number according to ASCII table (numbers > 127 belong to the extended ASCII table) makes no difference in binary but hinders reading
+char str[] = {
+    10 * 10 + 4,                                // easy math
+    0145,                                       // bases are not hard to deal with using a calculator (this octal base (base 8))
+    0x6C,                                       // same, hexadecimal base here (base 16)
+    0b01101100,                                 // binary here (base 2) (standard in C23, GNU extension before)
+    '\x6F',                                     // strictly equivalent to 0x6F without single quotes, useful in string literals
+    2 ^ (3 ^ 1)                                 // just some fancy bitwise operations (XOR), here 2 ^ (3 ^ 1) = 0b010 ^ (0b101 ^ 0b001) = 0b010 ^ 0b100 = 0b000 = 0 (NULL terminator)
+};
+// Mixing bases in a single calculation is also very disturbing and adds complexity.
+
+// Such an array is awful to read but perfectly fine, and it totally hides our text at first glance.
+// Nevertheless, it's not so hard to make it readable, especially using a calculator.
+// It's quite more difficult given the binary executable containing this array, because generally (it depends of its storage class (static or not for example)) it won't be treated as a string literal.
+// Though it's still possible to get those characters from the binary file, but it needs disassembling into assembly and then looking for the code initializing the string.
+// For instance, a compiler will initialize it by setting the four first bytes at once, by copying the value (104 << 24 | 101 << 16 | 108 << 8 | 108) at the starting address.
+// Then it will set the value (111 << 8 + 0) in the two remaining bytes.
+// That requires mor work but once you've found these values in the assembly code, you can easily get the string using bitwise operations.
+
+// Another solution slightly more difficult to deal with in our context is encrypting the string, and then decrypting it later.
+// Let's take a simple algorithm as an example, each character will be encrypted using XOR and its index in the string, for instance, 'h' is the first char so its encrypter value if 'h' XOR 1, then 'e' will be 'e' ^ 2 etc..
+// h : 105 (i), e : 103 (g), l : 111 (o), l : 104 (h), o : 106 (j), \0 : 6 (non printable) | note that the two 'l' haven't the same encrypted value because it depends of its index, which is useful to avoid patterns.
+// XOR is very straightforward to decrypt, as (a XOR b) XOR b equals a
+int main(void) {
+    char str[] = { 105, 103, 111, 104, 106, 6 };    // may be obfuscated using bases and/or arithmetic
+    for (unsigned i = 0; i < 6; i++) {
+        str[i] ^= (i + 1);                          // decryption algorithm
+    }
+    puts(&str[0]);                                  // Be careful to have a working decryption algorithm, the string must end by a NULL terminator !
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // Usually, a function is defined as 'type function(type1 var1, ..., typeN varN) {}'.
 // But a very old syntax enables doing 'type function(var1, ..., varN) type1 var1; ... ; typeN varN {}'
 // This syntax is however still supported nowadays for retrocompatibility purposes.
 // See also https://stackoverflow.com/questions/1585390/c-function-syntax-parameter-types-declared-after-parameter-list
+// Note that this syntax is removed in C23 : https://en.cppreference.com/w/c/23
 int main(argc, argv) int argc; char *argv[]; { return 0; } /* is equivalent to */ int main(int argc, char *argv[]) { return 0; }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
