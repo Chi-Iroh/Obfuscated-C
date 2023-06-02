@@ -1,3 +1,4 @@
 !**/*.gitignore
-**/*a.out
-**/*a.c
+!**/README.md
+**/*.out
+**/a.c
