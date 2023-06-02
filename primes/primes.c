@@ -1,0 +1,1 @@
+main(i,j){puts("2\n3");for(i=5;i<100;i+=2){for(j=2;j<sqrt(i)/2;j++){if(!(i%j)){goto r;}}printf("%d\n",i);r:;}}
