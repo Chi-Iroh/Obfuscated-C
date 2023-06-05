@@ -142,7 +142,7 @@ display:                            // Label : where to jump later
 
 // Serious warning, the use of goto is generally not encouraged, as it is an open door to the so-called "spaghetti code".
 // Spaghetti code is a code with a difficult to follow and understand control flow (the "path" of executed instructions).
-// Control flow is generally impacted by loops (as for, while, do ... while), conditions (if, else).
+// Control flow is impacted by loops (as for, while, do ... while), conditions (if, else).
 // Remain jumps (goto (local jumps), function calls, or non-local jumps (setjmp / longjmp, see below)) and switch which is a bit special, it is covered below.
 // The problem of goto is that the compiler cannot prevent you from coding nonsense because you have more control, in opposite to usual for or while-based loops whichs are delimited by brackets.
 // You are now fully aware of the risks, so be sure to know what you're doing and read your code twice.
