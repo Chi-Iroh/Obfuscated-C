@@ -3,7 +3,7 @@ main(Ⲿ,፷)char**፷;{Ⲿ--&&puts(main(Ⲿ,፷)+Ⲿ[፷]);}
 
 // Let's replace those weird identifiers by argc and argv
 // And also add spaces and tabulations to increase readability
-main(argc,argv) char** argv; {
+main(argc, argv) char** argv; {
     argc-- && puts(main(argc, argv) + argc[argv]);
 }
 
