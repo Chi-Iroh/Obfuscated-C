@@ -72,7 +72,7 @@ char str[] = {
 // XOR is very straightforward to decrypt, as (a XOR b) XOR b equals a
 int main(void) {
     char str[] = { 105, 103, 111, 104, 106, 6 };    // may be obfuscated using bases and/or arithmetic
-    for (unsigned i = 0; i < 6; i++) {
+    for (unsigned i = 1; i < 6; i++) {
         str[i] ^= (i + 1);                          // decryption algorithm
     }
     puts(&str[0]);                                  // Be careful to have a working decryption algorithm, the string must end by a NULL terminator !
