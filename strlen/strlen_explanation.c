@@ -89,7 +89,7 @@ void my_strlen(char* str) {
     _ = 0;
     while (true) {
         dummy(_ / str++[0]);
-        length++;
+        _++;
     }
 }
 
