@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "*.asm": "plaintext",
-        "*.S": "redcode",
-        "fenv.h": "c",
-        "signal.h": "c"
-    }
-}
